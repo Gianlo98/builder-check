@@ -52,7 +52,7 @@ export function AgentsGrid({ results }: AgentsGridProps) {
       </div>
 
       {/* Agent cards grid — dense packing fills gaps left by wide cards */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 auto-rows-[280px] [grid-auto-flow:dense]">
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-6 auto-rows-[280px] [grid-auto-flow:dense]">
         {AGENTS.map((agent: AgentConfig, idx: number) => {
           const result = getResult(agent.id);
           const status = result?.status ?? "idle";
