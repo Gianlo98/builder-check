@@ -14,8 +14,8 @@ export function AgentSkeleton({ agent }: AgentSkeletonProps) {
 
       <CardHeader className="pb-3">
         <div className="flex items-center gap-3">
-          <div className={`text-2xl w-10 h-10 rounded-lg ${agent.accent} flex items-center justify-center`}>
-            {agent.icon}
+          <div className={`w-10 h-10 rounded-lg ${agent.accent} flex items-center justify-center`}>
+            <agent.icon className={`h-5 w-5 ${agent.accentText}`} />
           </div>
           <div className="flex-1 space-y-2">
             <div className={`text-sm font-semibold ${agent.accentText}`}>

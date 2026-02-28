@@ -112,10 +112,3 @@
   animation: fadeInUp 0.4s ease-out forwards;
 }
 
-/* Subtle background grid overlay */
-.bg-grid {
-  background-image:
-    linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
-    linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
