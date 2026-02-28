@@ -43,6 +43,10 @@ const LineChartViz = dynamic(
   () => import("./visualizations/LineChartViz"),
   { ssr: false, loading: VizLoading }
 );
+const StackedBarViz = dynamic(
+  () => import("./visualizations/StackedBarViz"),
+  { ssr: false, loading: VizLoading }
+);
 
 interface Props {
   agent: AgentConfig;
@@ -69,6 +73,8 @@ export function AgentVizRenderer({ agent, content }: Props) {
         return <GaugeViz agent={agent} data={viz} content={content} />;
       case "lineChart":
         return <LineChartViz agent={agent} data={viz} content={content} />;
+      case "stackedBar":
+        return <StackedBarViz agent={agent} data={viz} content={content} />;
     }
   }
 
