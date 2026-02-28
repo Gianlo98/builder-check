@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "VentureCheck — AI-powered startup validation",
+  title: "BuilderCheck — AI-powered startup validation",
   description:
     "Validate your startup idea in minutes with parallel AI agents analyzing market, competition, customers, and more.",
 };

@@ -48,9 +48,9 @@ export function AgentCard({ agent, content }: AgentCardProps) {
       <CardHeader className="pb-3">
         <div className="flex items-center gap-3">
           <div
-            className={`text-2xl w-10 h-10 rounded-lg ${agent.accent} flex items-center justify-center border ${agent.accentBorder}`}
+            className={`w-10 h-10 rounded-lg ${agent.accent} flex items-center justify-center border ${agent.accentBorder}`}
           >
-            {agent.icon}
+            <agent.icon className={`h-5 w-5 ${agent.accentText}`} />
           </div>
           <div className="flex-1">
             <div className={`text-sm font-semibold ${agent.accentText}`}>
