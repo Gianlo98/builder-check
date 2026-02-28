@@ -119,25 +119,27 @@ export function ResearchInput() {
 
   if (phase === "analyzing") {
     return (
-      <div className="w-full space-y-8">
-        {/* Query recap + reset */}
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1 min-w-0">
-            <p className="text-xs text-muted-foreground mb-1">Validating idea</p>
-            <p className="text-base font-medium truncate">&ldquo;{submittedQuery}&rdquo;</p>
+      <div className="fixed inset-0 bg-background overflow-y-auto z-50">
+        <div className="min-h-full px-6 py-8 space-y-8 max-w-screen-2xl mx-auto">
+          {/* Top bar */}
+          <div className="flex items-center justify-between gap-4 sticky top-0 bg-background/90 backdrop-blur-sm py-3 -mx-6 px-6 border-b z-10">
+            <div className="flex-1 min-w-0">
+              <p className="text-xs text-muted-foreground">Validating idea</p>
+              <p className="text-sm font-medium truncate">&ldquo;{submittedQuery}&rdquo;</p>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleReset}
+              className="flex-shrink-0"
+            >
+              <RotateCcw className="h-3.5 w-3.5 mr-1.5" />
+              New idea
+            </Button>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleReset}
-            className="flex-shrink-0"
-          >
-            <RotateCcw className="h-3.5 w-3.5 mr-1.5" />
-            New idea
-          </Button>
-        </div>
 
-        <AgentsGrid results={agentResults} />
+          <AgentsGrid results={agentResults} />
+        </div>
       </div>
     );
   }
