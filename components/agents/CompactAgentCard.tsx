@@ -25,7 +25,7 @@ export function CompactAgentCard({ agent, content, onClick }: Props) {
 
       {/* Viz area — fills remaining height, clips inner CardHeader */}
       <div className="relative flex-1 overflow-hidden">
-        <div className="-mt-[70px] [&>div]:border-0 [&>div]:shadow-none [&>div]:rounded-none [&>div]:bg-transparent">
+        <div className="-mt-[90px] [&>div]:border-0 [&>div]:shadow-none [&>div]:rounded-none [&>div]:bg-transparent">
           <AgentVizRenderer agent={agent} content={content} />
         </div>
         {/* Gradient fade hides text overflow at the bottom */}
