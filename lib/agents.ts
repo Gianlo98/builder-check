@@ -5,6 +5,19 @@ import {
   Coins,
   ShieldAlert,
   Rocket,
+  Package,
+  BarChart2,
+  LineChart,
+  Layers,
+  Users,
+  Tag,
+  SlidersHorizontal,
+  LayoutGrid,
+  Share2,
+  FileText,
+  Network,
+  Zap,
+  Lightbulb,
   type LucideIcon,
 } from "lucide-react";
 
@@ -35,16 +48,13 @@ export interface AgentContent {
   bullets: string[];
   tags?: string[];
   recommendation?: string;
-<<<<<<< HEAD
-  vizData?: import("@/lib/viz-schemas").VizData;
-=======
   rawContent?: string; // raw text from backend specialist agents
+  vizData?: import("@/lib/viz-schemas").VizData;
 }
 
 export interface ChatMessage {
   role: "user" | "assistant";
   content: string;
->>>>>>> main
 }
 
 // 19 parallel validation agents — one per visualization type
@@ -101,15 +111,9 @@ export const AGENTS: AgentConfig[] = [
   },
   {
     id: "gtm",
-<<<<<<< HEAD
-    label: "Go-to-Market Roadmap",
-    description: "Maps launch milestones, sequenced acquisition and growth phases",
-    icon: "🚀",
-=======
     label: "Go-to-Market",
     description: "Suggests acquisition channels, launch strategy, and positioning",
     icon: Rocket,
->>>>>>> main
     accent: "bg-indigo-50",
     accentText: "text-indigo-700",
     accentBorder: "border-indigo-200",
@@ -119,7 +123,7 @@ export const AGENTS: AgentConfig[] = [
     id: "product",
     label: "Product Overview",
     description: "Summarizes core features, value prop, and product-market fit signals",
-    icon: "🧩",
+    icon: Package,
     accent: "bg-blue-50",
     accentText: "text-blue-700",
     accentBorder: "border-blue-200",
@@ -129,7 +133,7 @@ export const AGENTS: AgentConfig[] = [
     id: "unit_economics",
     label: "Unit Economics",
     description: "Models CAC, LTV, payback period, gross margin, and MRR trajectory",
-    icon: "📊",
+    icon: BarChart2,
     accent: "bg-purple-50",
     accentText: "text-purple-700",
     accentBorder: "border-purple-200",
@@ -139,7 +143,7 @@ export const AGENTS: AgentConfig[] = [
     id: "growth",
     label: "Growth Projection",
     description: "Projects user and revenue growth trajectory over 12–24 months",
-    icon: "🌱",
+    icon: LineChart,
     accent: "bg-rose-50",
     accentText: "text-rose-700",
     accentBorder: "border-rose-200",
@@ -149,7 +153,7 @@ export const AGENTS: AgentConfig[] = [
     id: "segments",
     label: "Market Segmentation",
     description: "Breaks down addressable market by customer segment and vertical",
-    icon: "🗂️",
+    icon: Layers,
     accent: "bg-emerald-50",
     accentText: "text-emerald-700",
     accentBorder: "border-emerald-200",
@@ -159,7 +163,7 @@ export const AGENTS: AgentConfig[] = [
     id: "adoption",
     label: "Adoption Curve",
     description: "Models early adopter, growth, and saturation phases over time",
-    icon: "📉",
+    icon: Users,
     accent: "bg-amber-50",
     accentText: "text-amber-700",
     accentBorder: "border-amber-200",
@@ -169,7 +173,7 @@ export const AGENTS: AgentConfig[] = [
     id: "pricing",
     label: "Pricing Strategy",
     description: "Analyzes price point distribution and competitive tier positioning",
-    icon: "💲",
+    icon: Tag,
     accent: "bg-indigo-50",
     accentText: "text-indigo-700",
     accentBorder: "border-indigo-200",
@@ -179,7 +183,7 @@ export const AGENTS: AgentConfig[] = [
     id: "features",
     label: "Feature Prioritization",
     description: "Ranks features by estimated customer value and development effort",
-    icon: "🔧",
+    icon: SlidersHorizontal,
     accent: "bg-blue-50",
     accentText: "text-blue-700",
     accentBorder: "border-blue-200",
@@ -189,7 +193,7 @@ export const AGENTS: AgentConfig[] = [
     id: "competitive_matrix",
     label: "Competitive Feature Matrix",
     description: "Scores feature coverage across key competitors on a heatmap",
-    icon: "🗺️",
+    icon: LayoutGrid,
     accent: "bg-purple-50",
     accentText: "text-purple-700",
     accentBorder: "border-purple-200",
@@ -199,7 +203,7 @@ export const AGENTS: AgentConfig[] = [
     id: "channels",
     label: "Acquisition Channels",
     description: "Breaks down optimal traffic and acquisition channel mix",
-    icon: "📡",
+    icon: Share2,
     accent: "bg-rose-50",
     accentText: "text-rose-700",
     accentBorder: "border-rose-200",
@@ -209,7 +213,7 @@ export const AGENTS: AgentConfig[] = [
     id: "financials",
     label: "Financial Projections",
     description: "3-year revenue, burn rate, and path-to-profitability projections",
-    icon: "💹",
+    icon: FileText,
     accent: "bg-emerald-50",
     accentText: "text-emerald-700",
     accentBorder: "border-emerald-200",
@@ -219,7 +223,7 @@ export const AGENTS: AgentConfig[] = [
     id: "stakeholders",
     label: "Key Stakeholders",
     description: "Identifies investors, partners, champions, and potential blockers",
-    icon: "👥",
+    icon: Network,
     accent: "bg-amber-50",
     accentText: "text-amber-700",
     accentBorder: "border-amber-200",
@@ -229,7 +233,7 @@ export const AGENTS: AgentConfig[] = [
     id: "effort_impact",
     label: "Effort vs Impact",
     description: "Plots initiatives by implementation effort against business impact",
-    icon: "⚡",
+    icon: Zap,
     accent: "bg-indigo-50",
     accentText: "text-indigo-700",
     accentBorder: "border-indigo-200",
@@ -239,7 +243,7 @@ export const AGENTS: AgentConfig[] = [
     id: "key_insight",
     label: "Critical Insight",
     description: "Surfaces the single most important finding across all analysis",
-    icon: "💡",
+    icon: Lightbulb,
     accent: "bg-blue-50",
     accentText: "text-blue-700",
     accentBorder: "border-blue-200",

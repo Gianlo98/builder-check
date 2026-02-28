@@ -17,7 +17,7 @@ export function CompactAgentCard({ agent, content, onClick }: Props) {
     >
       {/* Agent label strip — fixed height */}
       <div className={`flex-shrink-0 flex items-center gap-2 px-3 py-2 ${agent.accent}/40 border-b ${agent.accentBorder}`}>
-        <span className="text-base leading-none">{agent.icon}</span>
+        <agent.icon className={`h-4 w-4 flex-shrink-0 ${agent.accentText}`} />
         <span className={`text-xs font-semibold ${agent.accentText} truncate`}>
           {agent.label}
         </span>
