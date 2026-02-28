@@ -13,18 +13,18 @@ export function CompactAgentCard({ agent, content, onClick }: Props) {
   return (
     <button
       onClick={onClick}
-      className={`group relative w-full overflow-hidden rounded-xl border ${agent.accentBorder} bg-card text-left cursor-pointer hover:shadow-md transition-all duration-200`}
+      className={`group relative w-full h-full flex flex-col overflow-hidden rounded-xl border ${agent.accentBorder} bg-card text-left cursor-pointer hover:shadow-md transition-all duration-200`}
     >
-      {/* Agent label strip */}
-      <div className={`flex items-center gap-2 px-3 py-2 ${agent.accent}/40 border-b ${agent.accentBorder}`}>
+      {/* Agent label strip — fixed height */}
+      <div className={`flex-shrink-0 flex items-center gap-2 px-3 py-2 ${agent.accent}/40 border-b ${agent.accentBorder}`}>
         <span className="text-base leading-none">{agent.icon}</span>
         <span className={`text-xs font-semibold ${agent.accentText} truncate`}>
           {agent.label}
         </span>
       </div>
 
-      {/* Viz area — offset to clip the inner CardHeader, show just the chart */}
-      <div className="h-[240px] overflow-hidden relative">
+      {/* Viz area — fills remaining height, clips inner CardHeader */}
+      <div className="relative flex-1 overflow-hidden">
         <div className="-mt-[70px] [&>div]:border-0 [&>div]:shadow-none [&>div]:rounded-none [&>div]:bg-transparent">
           <AgentVizRenderer agent={agent} content={content} />
         </div>

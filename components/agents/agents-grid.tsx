@@ -5,6 +5,7 @@ import { AgentResult, AgentConfig, AgentContent, AGENTS } from "@/lib/agents";
 import { AgentSkeleton } from "./agent-skeleton";
 import { CompactAgentCard } from "./CompactAgentCard";
 import { AgentDetailModal } from "./AgentDetailModal";
+import { getVizColSpan } from "@/lib/viz-layout";
 
 interface AgentsGridProps {
   results: AgentResult[];
@@ -50,29 +51,32 @@ export function AgentsGrid({ results }: AgentsGridProps) {
         />
       </div>
 
-      {/* Agent cards grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      {/* Agent cards grid — dense packing fills gaps left by wide cards */}
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 auto-rows-[280px] [grid-auto-flow:dense]">
         {AGENTS.map((agent: AgentConfig, idx: number) => {
           const result = getResult(agent.id);
           const status = result?.status ?? "idle";
+          const colSpan = getVizColSpan(agent.vizHint);
+          const spanClass = colSpan === 2 ? "xl:col-span-2" : "";
 
           if (status === "done" && result?.content) {
             return (
-              <CompactAgentCard
-                key={agent.id}
-                agent={agent}
-                content={result.content}
-                onClick={() =>
-                  setActiveAgent({ agent, content: result.content! })
-                }
-              />
+              <div key={agent.id} className={`h-full ${spanClass}`}>
+                <CompactAgentCard
+                  agent={agent}
+                  content={result.content}
+                  onClick={() =>
+                    setActiveAgent({ agent, content: result.content! })
+                  }
+                />
+              </div>
             );
           }
 
           return (
             <div
               key={agent.id}
-              className="fade-in-up"
+              className={`h-full fade-in-up ${spanClass}`}
               style={{ animationDelay: `${idx * 80}ms` }}
             >
               <AgentSkeleton agent={agent} />
