@@ -1,13 +1,19 @@
 import { Badge } from "@/components/ui/badge";
+import { Logo } from "@/components/ui/logo";
 import { ResearchInput } from "./research-input";
 
 export function HeroSection() {
   return (
     <section className="min-h-screen flex flex-col items-center justify-center px-4 py-20 bg-gradient-to-b from-background to-muted/30">
+      {/* Logo */}
+      <div className="mb-8">
+        <Logo size="lg" />
+      </div>
+
       {/* Top badge */}
       <div className="mb-6">
         <Badge variant="outline" className="gap-1.5 text-xs px-3 py-1">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 inline-block" />
+          <span className="h-1.5 w-1.5 rounded-full bg-primary inline-block" />
           6 AI agents · runs in parallel
         </Badge>
       </div>
@@ -16,7 +22,7 @@ export function HeroSection() {
       <div className="text-center space-y-4 mb-10 max-w-3xl">
         <h1 className="text-5xl md:text-6xl font-bold tracking-tight leading-tight">
           Validate your{" "}
-          <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-emerald-600 via-green-500 to-teal-600 bg-clip-text text-transparent">
             startup idea
           </span>
           <br />
