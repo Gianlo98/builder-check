@@ -120,7 +120,7 @@ export function ResearchInput() {
   if (phase === "analyzing") {
     return (
       <div className="fixed inset-0 bg-background overflow-y-auto z-50">
-        <div className="min-h-full px-6 py-8 space-y-8 max-w-screen-2xl mx-auto">
+        <div className="min-h-full px-6 pt-8 pb-12 space-y-10 max-w-screen-2xl mx-auto">
           {/* Top bar */}
           <div className="flex items-center justify-between gap-4 sticky top-0 bg-background/90 backdrop-blur-sm py-3 -mx-6 px-6 border-b z-10">
             <div className="flex-1 min-w-0">
