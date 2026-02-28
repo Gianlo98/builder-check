@@ -39,6 +39,10 @@ const GaugeViz = dynamic(
   () => import("./visualizations/GaugeViz"),
   { ssr: false, loading: VizLoading }
 );
+const LineChartViz = dynamic(
+  () => import("./visualizations/LineChartViz"),
+  { ssr: false, loading: VizLoading }
+);
 
 interface Props {
   agent: AgentConfig;
@@ -63,6 +67,8 @@ export function AgentVizRenderer({ agent, content }: Props) {
         return <KpiCardViz agent={agent} data={viz} content={content} />;
       case "gauge":
         return <GaugeViz agent={agent} data={viz} content={content} />;
+      case "lineChart":
+        return <LineChartViz agent={agent} data={viz} content={content} />;
     }
   }
 

@@ -72,6 +72,22 @@ export const TitleCardSchema = z.object({
   recommendation: z.string(),
 });
 
+export const LineChartSchema = z.object({
+  vizType: z.literal("lineChart"),
+  title: z.string(),
+  xLabel: z.string(),
+  yLabel: z.string(),
+  lines: z.array(
+    z.object({
+      name: z.string(),
+      data: z.array(z.object({ x: z.string(), y: z.number() })),
+    })
+  ),
+  score: z.number().describe("0-100"),
+  scoreLabel: z.string(),
+  recommendation: z.string(),
+});
+
 export const GaugeSchema = z.object({
   vizType: z.literal("gauge"),
   title: z.string(),
@@ -106,6 +122,7 @@ const vizSchemaMap = {
   titleCard: TitleCardSchema,
   kpiCard: KpiCardSchema,
   gauge: GaugeSchema,
+  lineChart: LineChartSchema,
 } as const;
 
 export type VizType = keyof typeof vizSchemaMap;
@@ -127,4 +144,5 @@ export type ProgressListData = z.infer<typeof ProgressListSchema>;
 export type TitleCardData = z.infer<typeof TitleCardSchema>;
 export type KpiCardData = z.infer<typeof KpiCardSchema>;
 export type GaugeData = z.infer<typeof GaugeSchema>;
-export type VizData = ScoreCardData | BarChartData | RadarChartData | ProgressListData | TitleCardData | KpiCardData | GaugeData;
+export type LineChartData = z.infer<typeof LineChartSchema>;
+export type VizData = ScoreCardData | BarChartData | RadarChartData | ProgressListData | TitleCardData | KpiCardData | GaugeData | LineChartData;
