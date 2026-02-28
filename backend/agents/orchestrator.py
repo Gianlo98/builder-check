@@ -7,6 +7,7 @@ from deepagents import create_deep_agent
 from langgraph.checkpoint.memory import MemorySaver
 
 from agents.specialist import build_subagent_defs, get_agent_labels
+from agents.tools import resolve_tools
 
 QUESTIONS_PATH = Path(__file__).parent.parent / "config" / "questions.yaml"
 
@@ -62,6 +63,7 @@ def create_orchestrator(checkpointer: MemorySaver | None = None):
         name="orchestrator",
         model=model,
         system_prompt=system_prompt,
+        tools=resolve_tools(["web_search"]),
         subagents=subagent_defs,
         checkpointer=checkpointer,
     )

@@ -24,6 +24,12 @@ export interface AgentContent {
   bullets: string[];
   tags?: string[];
   recommendation?: string;
+  rawContent?: string; // raw text from backend specialist agents
+}
+
+export interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
 }
 
 // The 6 parallel validation agents
