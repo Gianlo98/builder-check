@@ -72,6 +72,21 @@ export const TitleCardSchema = z.object({
   recommendation: z.string(),
 });
 
+export const AreaChartSchema = z.object({
+  vizType: z.literal("areaChart"),
+  title: z.string(),
+  xLabel: z.string(),
+  areas: z.array(
+    z.object({
+      name: z.string(),
+      data: z.array(z.object({ x: z.string(), y: z.number() })),
+    })
+  ),
+  score: z.number().describe("0-100"),
+  scoreLabel: z.string(),
+  recommendation: z.string(),
+});
+
 export const StackedBarSchema = z.object({
   vizType: z.literal("stackedBar"),
   title: z.string(),
@@ -139,6 +154,7 @@ const vizSchemaMap = {
   gauge: GaugeSchema,
   lineChart: LineChartSchema,
   stackedBar: StackedBarSchema,
+  areaChart: AreaChartSchema,
 } as const;
 
 export type VizType = keyof typeof vizSchemaMap;
@@ -162,4 +178,5 @@ export type KpiCardData = z.infer<typeof KpiCardSchema>;
 export type GaugeData = z.infer<typeof GaugeSchema>;
 export type LineChartData = z.infer<typeof LineChartSchema>;
 export type StackedBarData = z.infer<typeof StackedBarSchema>;
-export type VizData = ScoreCardData | BarChartData | RadarChartData | ProgressListData | TitleCardData | KpiCardData | GaugeData | LineChartData | StackedBarData;
+export type AreaChartData = z.infer<typeof AreaChartSchema>;
+export type VizData = ScoreCardData | BarChartData | RadarChartData | ProgressListData | TitleCardData | KpiCardData | GaugeData | LineChartData | StackedBarData | AreaChartData;
