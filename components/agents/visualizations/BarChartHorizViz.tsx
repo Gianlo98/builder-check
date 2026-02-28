@@ -2,17 +2,43 @@
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  type ChartConfig,
+} from "@/components/ui/chart";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
 import { CheckCircle2 } from "lucide-react";
 import { AgentConfig, AgentContent } from "@/lib/agents";
-import type { KpiCardData } from "@/lib/viz-schemas";
+import type { BarChartHorizData } from "@/lib/viz-schemas";
+
+const ACCENT_HEX: Record<string, string> = {
+  "text-blue-700": "hsl(221.2 83.2% 53.3%)",
+  "text-purple-700": "hsl(262.1 83.3% 57.8%)",
+  "text-rose-700": "hsl(346.8 77.2% 49.8%)",
+  "text-emerald-700": "hsl(142.1 76.2% 36.3%)",
+  "text-amber-700": "hsl(32.1 94.6% 43.7%)",
+  "text-indigo-700": "hsl(243.4 75.4% 58.6%)",
+};
 
 interface Props {
   agent: AgentConfig;
-  data: KpiCardData;
+  data: BarChartHorizData;
   content: AgentContent;
 }
 
-export default function KpiCardViz({ agent, data, content }: Props) {
+export default function BarChartHorizViz({ agent, data, content }: Props) {
+  const accentColor = ACCENT_HEX[agent.accentText] ?? "hsl(221.2 83.2% 53.3%)";
+
+  const chartConfig: ChartConfig = {
+    value: { label: data.title, color: accentColor },
+  };
+
+  // Compute left margin based on longest bar name
+  const maxNameLen = Math.max(...data.bars.map((b) => b.name.length), 0);
+  const leftMargin = Math.min(maxNameLen * 6, 120);
+
   return (
     <Card className={`border ${agent.accentBorder} ${agent.accent}/40 fade-in-up`}>
       <CardHeader className="pb-3">
@@ -33,28 +59,26 @@ export default function KpiCardViz({ agent, data, content }: Props) {
           <span className="text-sm text-muted-foreground">/ 100 — {data.scoreLabel}</span>
         </div>
 
-        {/* KPI Grid */}
-        <div className="grid grid-cols-2 gap-3">
-          {data.metrics.map((metric, i) => (
-            <div key={i} className="rounded-lg border border-border bg-muted/30 p-3 space-y-1">
-              <p className="text-xs text-muted-foreground">{metric.label}</p>
-              <p className="text-xl font-bold tabular-nums text-foreground">{metric.value}</p>
-              <Badge
-                variant="secondary"
-                className={`text-xs ${
-                  metric.deltaDirection === "up"
-                    ? "text-emerald-700 bg-emerald-100"
-                    : metric.deltaDirection === "down"
-                    ? "text-rose-700 bg-rose-100"
-                    : "text-muted-foreground bg-muted"
-                }`}
-              >
-                {metric.deltaDirection === "up" ? "↑" : metric.deltaDirection === "down" ? "↓" : "→"}{" "}
-                {metric.delta}
-              </Badge>
-            </div>
-          ))}
-        </div>
+        <ChartContainer config={chartConfig} className="h-[200px] w-full">
+          <BarChart
+            layout="vertical"
+            data={data.bars}
+            margin={{ top: 5, right: 10, bottom: 5, left: leftMargin }}
+          >
+            <CartesianGrid horizontal={false} strokeDasharray="3 3" />
+            <YAxis
+              dataKey="name"
+              type="category"
+              tickLine={false}
+              axisLine={false}
+              tick={{ fontSize: 10 }}
+              width={leftMargin}
+            />
+            <XAxis type="number" tickLine={false} axisLine={false} tick={{ fontSize: 10 }} />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <Bar dataKey="value" fill="var(--color-value)" radius={[0, 4, 4, 0]} />
+          </BarChart>
+        </ChartContainer>
 
         <p className="text-sm text-foreground leading-relaxed">{content.summary}</p>
         <ul className="space-y-2">

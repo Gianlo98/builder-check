@@ -97,7 +97,7 @@ export default function StackedBarViz({ agent, data, content }: Props) {
             </li>
           ))}
         </ul>
-        {content.tags?.length > 0 && (
+        {content.tags && content.tags.length > 0 && (
           <div className="flex flex-wrap gap-1.5">
             {content.tags.map((tag) => (
               <Badge key={tag} variant="outline" className={`text-xs ${agent.accentText} ${agent.accentBorder}`}>

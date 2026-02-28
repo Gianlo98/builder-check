@@ -153,6 +153,95 @@ export const KpiCardSchema = z.object({
   recommendation: z.string(),
 });
 
+export const ScatterSchema = z.object({
+  vizType: z.literal("scatter"),
+  title: z.string(),
+  xLabel: z.string(),
+  yLabel: z.string(),
+  points: z.array(z.object({ x: z.number(), y: z.number(), label: z.string() })),
+  score: z.number().describe("0-100"),
+  scoreLabel: z.string(),
+  recommendation: z.string(),
+});
+
+export const HeatmapSchema = z.object({
+  vizType: z.literal("heatmap"),
+  title: z.string(),
+  rows: z.array(z.string()),
+  cols: z.array(z.string()),
+  cells: z.array(z.object({ row: z.string(), col: z.string(), value: z.number().describe("0-100") })),
+  score: z.number().describe("0-100"),
+  scoreLabel: z.string(),
+  recommendation: z.string(),
+});
+
+export const DonutSchema = z.object({
+  vizType: z.literal("donut"),
+  title: z.string(),
+  slices: z.array(z.object({ name: z.string(), value: z.number() })),
+  score: z.number().describe("0-100"),
+  scoreLabel: z.string(),
+  recommendation: z.string(),
+});
+
+export const DataTableSchema = z.object({
+  vizType: z.literal("dataTable"),
+  title: z.string(),
+  columns: z.array(z.string()),
+  rows: z.array(z.object({ cells: z.array(z.string()) })),
+  score: z.number().describe("0-100"),
+  scoreLabel: z.string(),
+  recommendation: z.string(),
+});
+
+export const EntityListSchema = z.object({
+  vizType: z.literal("entityList"),
+  title: z.string(),
+  entities: z.array(z.object({
+    name: z.string(),
+    role: z.string(),
+    badge: z.string(),
+    sentiment: z.enum(["positive", "neutral", "negative"]),
+  })),
+  score: z.number().describe("0-100"),
+  scoreLabel: z.string(),
+  recommendation: z.string(),
+});
+
+export const TimelineSchema = z.object({
+  vizType: z.literal("timeline"),
+  title: z.string(),
+  events: z.array(z.object({
+    date: z.string(),
+    label: z.string(),
+    description: z.string(),
+    sentiment: z.enum(["positive", "neutral", "negative"]),
+  })),
+  score: z.number().describe("0-100"),
+  scoreLabel: z.string(),
+  recommendation: z.string(),
+});
+
+export const InsightCalloutSchema = z.object({
+  vizType: z.literal("insightCallout"),
+  title: z.string(),
+  insight: z.string(),
+  sentiment: z.enum(["positive", "neutral", "negative"]),
+  supportingPoints: z.array(z.string()),
+  score: z.number().describe("0-100"),
+  scoreLabel: z.string(),
+  recommendation: z.string(),
+});
+
+export const BarChartHorizSchema = z.object({
+  vizType: z.literal("barChartHoriz"),
+  title: z.string(),
+  bars: z.array(z.object({ name: z.string(), value: z.number() })),
+  score: z.number().describe("0-100"),
+  scoreLabel: z.string(),
+  recommendation: z.string(),
+});
+
 // Per-vizType response schemas (avoids oneOf/discriminatedUnion which Anthropic doesn't support)
 const vizSchemaMap = {
   scoreCard: ScoreCardSchema,
@@ -166,6 +255,14 @@ const vizSchemaMap = {
   stackedBar: StackedBarSchema,
   areaChart: AreaChartSchema,
   distribution: DistributionSchema,
+  scatter: ScatterSchema,
+  heatmap: HeatmapSchema,
+  donut: DonutSchema,
+  dataTable: DataTableSchema,
+  entityList: EntityListSchema,
+  timeline: TimelineSchema,
+  insightCallout: InsightCalloutSchema,
+  barChartHoriz: BarChartHorizSchema,
 } as const;
 
 export type VizType = keyof typeof vizSchemaMap;
@@ -191,4 +288,12 @@ export type LineChartData = z.infer<typeof LineChartSchema>;
 export type StackedBarData = z.infer<typeof StackedBarSchema>;
 export type AreaChartData = z.infer<typeof AreaChartSchema>;
 export type DistributionData = z.infer<typeof DistributionSchema>;
-export type VizData = ScoreCardData | BarChartData | RadarChartData | ProgressListData | TitleCardData | KpiCardData | GaugeData | LineChartData | StackedBarData | AreaChartData | DistributionData;
+export type ScatterData = z.infer<typeof ScatterSchema>;
+export type HeatmapData = z.infer<typeof HeatmapSchema>;
+export type DonutData = z.infer<typeof DonutSchema>;
+export type DataTableData = z.infer<typeof DataTableSchema>;
+export type EntityListData = z.infer<typeof EntityListSchema>;
+export type TimelineData = z.infer<typeof TimelineSchema>;
+export type InsightCalloutData = z.infer<typeof InsightCalloutSchema>;
+export type BarChartHorizData = z.infer<typeof BarChartHorizSchema>;
+export type VizData = ScoreCardData | BarChartData | RadarChartData | ProgressListData | TitleCardData | KpiCardData | GaugeData | LineChartData | StackedBarData | AreaChartData | DistributionData | ScatterData | HeatmapData | DonutData | DataTableData | EntityListData | TimelineData | InsightCalloutData | BarChartHorizData;

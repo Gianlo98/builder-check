@@ -55,6 +55,38 @@ const DistributionViz = dynamic(
   () => import("./visualizations/DistributionViz"),
   { ssr: false, loading: VizLoading }
 );
+const ScatterViz = dynamic(
+  () => import("./visualizations/ScatterViz"),
+  { ssr: false, loading: VizLoading }
+);
+const HeatmapViz = dynamic(
+  () => import("./visualizations/HeatmapViz"),
+  { ssr: false, loading: VizLoading }
+);
+const DonutViz = dynamic(
+  () => import("./visualizations/DonutViz"),
+  { ssr: false, loading: VizLoading }
+);
+const DataTableViz = dynamic(
+  () => import("./visualizations/DataTableViz"),
+  { ssr: false, loading: VizLoading }
+);
+const EntityListViz = dynamic(
+  () => import("./visualizations/EntityListViz"),
+  { ssr: false, loading: VizLoading }
+);
+const TimelineViz = dynamic(
+  () => import("./visualizations/TimelineViz"),
+  { ssr: false, loading: VizLoading }
+);
+const InsightCalloutViz = dynamic(
+  () => import("./visualizations/InsightCalloutViz"),
+  { ssr: false, loading: VizLoading }
+);
+const BarChartHorizViz = dynamic(
+  () => import("./visualizations/BarChartHorizViz"),
+  { ssr: false, loading: VizLoading }
+);
 
 interface Props {
   agent: AgentConfig;
@@ -87,6 +119,22 @@ export function AgentVizRenderer({ agent, content }: Props) {
         return <AreaChartViz agent={agent} data={viz} content={content} />;
       case "distribution":
         return <DistributionViz agent={agent} data={viz} content={content} />;
+      case "scatter":
+        return <ScatterViz agent={agent} data={viz} content={content} />;
+      case "heatmap":
+        return <HeatmapViz agent={agent} data={viz} content={content} />;
+      case "donut":
+        return <DonutViz agent={agent} data={viz} content={content} />;
+      case "dataTable":
+        return <DataTableViz agent={agent} data={viz} content={content} />;
+      case "entityList":
+        return <EntityListViz agent={agent} data={viz} content={content} />;
+      case "timeline":
+        return <TimelineViz agent={agent} data={viz} content={content} />;
+      case "insightCallout":
+        return <InsightCalloutViz agent={agent} data={viz} content={content} />;
+      case "barChartHoriz":
+        return <BarChartHorizViz agent={agent} data={viz} content={content} />;
     }
   }
 

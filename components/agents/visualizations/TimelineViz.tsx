@@ -4,15 +4,27 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2 } from "lucide-react";
 import { AgentConfig, AgentContent } from "@/lib/agents";
-import type { KpiCardData } from "@/lib/viz-schemas";
+import type { TimelineData } from "@/lib/viz-schemas";
 
 interface Props {
   agent: AgentConfig;
-  data: KpiCardData;
+  data: TimelineData;
   content: AgentContent;
 }
 
-export default function KpiCardViz({ agent, data, content }: Props) {
+const SENTIMENT_DOT: Record<string, string> = {
+  positive: "bg-emerald-500 border-emerald-600",
+  neutral: "bg-slate-400 border-slate-500",
+  negative: "bg-rose-500 border-rose-600",
+};
+
+const SENTIMENT_DATE: Record<string, string> = {
+  positive: "text-emerald-600",
+  neutral: "text-muted-foreground",
+  negative: "text-rose-600",
+};
+
+export default function TimelineViz({ agent, data, content }: Props) {
   return (
     <Card className={`border ${agent.accentBorder} ${agent.accent}/40 fade-in-up`}>
       <CardHeader className="pb-3">
@@ -33,25 +45,22 @@ export default function KpiCardViz({ agent, data, content }: Props) {
           <span className="text-sm text-muted-foreground">/ 100 — {data.scoreLabel}</span>
         </div>
 
-        {/* KPI Grid */}
-        <div className="grid grid-cols-2 gap-3">
-          {data.metrics.map((metric, i) => (
-            <div key={i} className="rounded-lg border border-border bg-muted/30 p-3 space-y-1">
-              <p className="text-xs text-muted-foreground">{metric.label}</p>
-              <p className="text-xl font-bold tabular-nums text-foreground">{metric.value}</p>
-              <Badge
-                variant="secondary"
-                className={`text-xs ${
-                  metric.deltaDirection === "up"
-                    ? "text-emerald-700 bg-emerald-100"
-                    : metric.deltaDirection === "down"
-                    ? "text-rose-700 bg-rose-100"
-                    : "text-muted-foreground bg-muted"
-                }`}
-              >
-                {metric.deltaDirection === "up" ? "↑" : metric.deltaDirection === "down" ? "↓" : "→"}{" "}
-                {metric.delta}
-              </Badge>
+        <div className="relative pl-6 space-y-0">
+          {data.events.map((event, i) => (
+            <div key={i} className="relative pb-5 last:pb-0">
+              {/* Vertical line */}
+              {i < data.events.length - 1 && (
+                <span className="absolute left-[-13px] top-4 bottom-0 w-px bg-border" />
+              )}
+              {/* Dot */}
+              <span className={`absolute left-[-17px] top-1 h-3 w-3 rounded-full border-2 ${SENTIMENT_DOT[event.sentiment]}`} />
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-2">
+                  <span className={`text-xs font-mono ${SENTIMENT_DATE[event.sentiment]}`}>{event.date}</span>
+                  <span className="text-sm font-medium text-foreground">{event.label}</span>
+                </div>
+                <p className="text-xs text-muted-foreground leading-snug">{event.description}</p>
+              </div>
             </div>
           ))}
         </div>

@@ -2,17 +2,25 @@
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { CheckCircle2 } from "lucide-react";
 import { AgentConfig, AgentContent } from "@/lib/agents";
-import type { KpiCardData } from "@/lib/viz-schemas";
+import type { DataTableData } from "@/lib/viz-schemas";
 
 interface Props {
   agent: AgentConfig;
-  data: KpiCardData;
+  data: DataTableData;
   content: AgentContent;
 }
 
-export default function KpiCardViz({ agent, data, content }: Props) {
+export default function DataTableViz({ agent, data, content }: Props) {
   return (
     <Card className={`border ${agent.accentBorder} ${agent.accent}/40 fade-in-up`}>
       <CardHeader className="pb-3">
@@ -33,27 +41,27 @@ export default function KpiCardViz({ agent, data, content }: Props) {
           <span className="text-sm text-muted-foreground">/ 100 — {data.scoreLabel}</span>
         </div>
 
-        {/* KPI Grid */}
-        <div className="grid grid-cols-2 gap-3">
-          {data.metrics.map((metric, i) => (
-            <div key={i} className="rounded-lg border border-border bg-muted/30 p-3 space-y-1">
-              <p className="text-xs text-muted-foreground">{metric.label}</p>
-              <p className="text-xl font-bold tabular-nums text-foreground">{metric.value}</p>
-              <Badge
-                variant="secondary"
-                className={`text-xs ${
-                  metric.deltaDirection === "up"
-                    ? "text-emerald-700 bg-emerald-100"
-                    : metric.deltaDirection === "down"
-                    ? "text-rose-700 bg-rose-100"
-                    : "text-muted-foreground bg-muted"
-                }`}
-              >
-                {metric.deltaDirection === "up" ? "↑" : metric.deltaDirection === "down" ? "↓" : "→"}{" "}
-                {metric.delta}
-              </Badge>
-            </div>
-          ))}
+        <div className="rounded-md border overflow-hidden">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                {data.columns.map((col) => (
+                  <TableHead key={col} className={`text-xs font-semibold ${agent.accentText} h-8 px-3`}>
+                    {col}
+                  </TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {data.rows.map((row, ri) => (
+                <TableRow key={ri}>
+                  {row.cells.map((cell, ci) => (
+                    <TableCell key={ci} className="text-xs px-3 py-2">{cell}</TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
 
         <p className="text-sm text-foreground leading-relaxed">{content.summary}</p>

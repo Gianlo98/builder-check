@@ -2,17 +2,37 @@
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  type ChartConfig,
+} from "@/components/ui/chart";
+import { PieChart, Pie, Cell } from "recharts";
 import { CheckCircle2 } from "lucide-react";
 import { AgentConfig, AgentContent } from "@/lib/agents";
-import type { KpiCardData } from "@/lib/viz-schemas";
+import type { DonutData } from "@/lib/viz-schemas";
+
+const PALETTE = [
+  "hsl(221.2 83.2% 53.3%)",
+  "hsl(262.1 83.3% 57.8%)",
+  "hsl(142.1 76.2% 36.3%)",
+  "hsl(32.1 94.6% 43.7%)",
+  "hsl(346.8 77.2% 49.8%)",
+  "hsl(243.4 75.4% 58.6%)",
+];
 
 interface Props {
   agent: AgentConfig;
-  data: KpiCardData;
+  data: DonutData;
   content: AgentContent;
 }
 
-export default function KpiCardViz({ agent, data, content }: Props) {
+export default function DonutViz({ agent, data, content }: Props) {
+  const chartConfig: ChartConfig = Object.fromEntries(
+    data.slices.map((s, i) => [s.name, { label: s.name, color: PALETTE[i % PALETTE.length] }])
+  );
+
   return (
     <Card className={`border ${agent.accentBorder} ${agent.accent}/40 fade-in-up`}>
       <CardHeader className="pb-3">
@@ -33,25 +53,31 @@ export default function KpiCardViz({ agent, data, content }: Props) {
           <span className="text-sm text-muted-foreground">/ 100 — {data.scoreLabel}</span>
         </div>
 
-        {/* KPI Grid */}
-        <div className="grid grid-cols-2 gap-3">
-          {data.metrics.map((metric, i) => (
-            <div key={i} className="rounded-lg border border-border bg-muted/30 p-3 space-y-1">
-              <p className="text-xs text-muted-foreground">{metric.label}</p>
-              <p className="text-xl font-bold tabular-nums text-foreground">{metric.value}</p>
-              <Badge
-                variant="secondary"
-                className={`text-xs ${
-                  metric.deltaDirection === "up"
-                    ? "text-emerald-700 bg-emerald-100"
-                    : metric.deltaDirection === "down"
-                    ? "text-rose-700 bg-rose-100"
-                    : "text-muted-foreground bg-muted"
-                }`}
-              >
-                {metric.deltaDirection === "up" ? "↑" : metric.deltaDirection === "down" ? "↓" : "→"}{" "}
-                {metric.delta}
-              </Badge>
+        <ChartContainer config={chartConfig} className="h-[200px] w-full">
+          <PieChart>
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <Pie
+              data={data.slices}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              innerRadius={60}
+              outerRadius={90}
+              strokeWidth={2}
+            >
+              {data.slices.map((_, i) => (
+                <Cell key={i} fill={PALETTE[i % PALETTE.length]} />
+              ))}
+            </Pie>
+          </PieChart>
+        </ChartContainer>
+
+        <div className="flex flex-wrap gap-x-4 gap-y-1">
+          {data.slices.map((s, i) => (
+            <div key={s.name} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <span className="h-2 w-2 rounded-full flex-shrink-0" style={{ background: PALETTE[i % PALETTE.length] }} />
+              {s.name} ({s.value})
             </div>
           ))}
         </div>

@@ -4,15 +4,28 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2 } from "lucide-react";
 import { AgentConfig, AgentContent } from "@/lib/agents";
-import type { KpiCardData } from "@/lib/viz-schemas";
+import type { HeatmapData } from "@/lib/viz-schemas";
 
 interface Props {
   agent: AgentConfig;
-  data: KpiCardData;
+  data: HeatmapData;
   content: AgentContent;
 }
 
-export default function KpiCardViz({ agent, data, content }: Props) {
+function cellColor(value: number): string {
+  if (value >= 75) return "bg-emerald-500/80 text-white";
+  if (value >= 50) return "bg-amber-400/80 text-white";
+  if (value >= 25) return "bg-orange-400/80 text-white";
+  return "bg-rose-500/80 text-white";
+}
+
+export default function HeatmapViz({ agent, data, content }: Props) {
+  const cellMap: Record<string, Record<string, number>> = {};
+  for (const cell of data.cells) {
+    if (!cellMap[cell.row]) cellMap[cell.row] = {};
+    cellMap[cell.row][cell.col] = cell.value;
+  }
+
   return (
     <Card className={`border ${agent.accentBorder} ${agent.accent}/40 fade-in-up`}>
       <CardHeader className="pb-3">
@@ -33,27 +46,34 @@ export default function KpiCardViz({ agent, data, content }: Props) {
           <span className="text-sm text-muted-foreground">/ 100 — {data.scoreLabel}</span>
         </div>
 
-        {/* KPI Grid */}
-        <div className="grid grid-cols-2 gap-3">
-          {data.metrics.map((metric, i) => (
-            <div key={i} className="rounded-lg border border-border bg-muted/30 p-3 space-y-1">
-              <p className="text-xs text-muted-foreground">{metric.label}</p>
-              <p className="text-xl font-bold tabular-nums text-foreground">{metric.value}</p>
-              <Badge
-                variant="secondary"
-                className={`text-xs ${
-                  metric.deltaDirection === "up"
-                    ? "text-emerald-700 bg-emerald-100"
-                    : metric.deltaDirection === "down"
-                    ? "text-rose-700 bg-rose-100"
-                    : "text-muted-foreground bg-muted"
-                }`}
-              >
-                {metric.deltaDirection === "up" ? "↑" : metric.deltaDirection === "down" ? "↓" : "→"}{" "}
-                {metric.delta}
-              </Badge>
-            </div>
-          ))}
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs border-collapse">
+            <thead>
+              <tr>
+                <th className="p-1 text-left text-muted-foreground font-normal w-20" />
+                {data.cols.map((col) => (
+                  <th key={col} className="p-1 text-center text-muted-foreground font-medium">{col}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {data.rows.map((row) => (
+                <tr key={row}>
+                  <td className="p-1 text-muted-foreground font-medium text-right pr-2">{row}</td>
+                  {data.cols.map((col) => {
+                    const val = cellMap[row]?.[col] ?? 0;
+                    return (
+                      <td key={col} className="p-0.5">
+                        <div className={`rounded text-center py-1.5 px-1 ${cellColor(val)} tabular-nums`}>
+                          {val}
+                        </div>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
 
         <p className="text-sm text-foreground leading-relaxed">{content.summary}</p>

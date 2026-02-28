@@ -2,17 +2,43 @@
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { AgentConfig, AgentContent } from "@/lib/agents";
-import type { KpiCardData } from "@/lib/viz-schemas";
+import type { InsightCalloutData } from "@/lib/viz-schemas";
 
 interface Props {
   agent: AgentConfig;
-  data: KpiCardData;
+  data: InsightCalloutData;
   content: AgentContent;
 }
 
-export default function KpiCardViz({ agent, data, content }: Props) {
+const SENTIMENT_STYLES: Record<string, { box: string; icon: string; label: string }> = {
+  positive: {
+    box: "bg-emerald-50 border-emerald-200 dark:bg-emerald-950/30 dark:border-emerald-800",
+    icon: "text-emerald-600",
+    label: "Positive Signal",
+  },
+  neutral: {
+    box: "bg-slate-50 border-slate-200 dark:bg-slate-900/30 dark:border-slate-700",
+    icon: "text-slate-500",
+    label: "Neutral Signal",
+  },
+  negative: {
+    box: "bg-rose-50 border-rose-200 dark:bg-rose-950/30 dark:border-rose-800",
+    icon: "text-rose-600",
+    label: "Risk Signal",
+  },
+};
+
+const SentimentIcon = ({ sentiment }: { sentiment: string }) => {
+  if (sentiment === "positive") return <TrendingUp className="h-5 w-5" />;
+  if (sentiment === "negative") return <TrendingDown className="h-5 w-5" />;
+  return <Minus className="h-5 w-5" />;
+};
+
+export default function InsightCalloutViz({ agent, data, content }: Props) {
+  const style = SENTIMENT_STYLES[data.sentiment] ?? SENTIMENT_STYLES.neutral;
+
   return (
     <Card className={`border ${agent.accentBorder} ${agent.accent}/40 fade-in-up`}>
       <CardHeader className="pb-3">
@@ -33,27 +59,22 @@ export default function KpiCardViz({ agent, data, content }: Props) {
           <span className="text-sm text-muted-foreground">/ 100 — {data.scoreLabel}</span>
         </div>
 
-        {/* KPI Grid */}
-        <div className="grid grid-cols-2 gap-3">
-          {data.metrics.map((metric, i) => (
-            <div key={i} className="rounded-lg border border-border bg-muted/30 p-3 space-y-1">
-              <p className="text-xs text-muted-foreground">{metric.label}</p>
-              <p className="text-xl font-bold tabular-nums text-foreground">{metric.value}</p>
-              <Badge
-                variant="secondary"
-                className={`text-xs ${
-                  metric.deltaDirection === "up"
-                    ? "text-emerald-700 bg-emerald-100"
-                    : metric.deltaDirection === "down"
-                    ? "text-rose-700 bg-rose-100"
-                    : "text-muted-foreground bg-muted"
-                }`}
-              >
-                {metric.deltaDirection === "up" ? "↑" : metric.deltaDirection === "down" ? "↓" : "→"}{" "}
-                {metric.delta}
-              </Badge>
-            </div>
-          ))}
+        <div className={`rounded-lg border p-4 space-y-3 ${style.box}`}>
+          <div className="flex items-center gap-2">
+            <span className={style.icon}><SentimentIcon sentiment={data.sentiment} /></span>
+            <span className={`text-xs font-semibold uppercase tracking-wide ${style.icon}`}>{style.label}</span>
+          </div>
+          <p className="text-sm font-medium text-foreground leading-relaxed">{data.insight}</p>
+          {data.supportingPoints.length > 0 && (
+            <ul className="space-y-1.5">
+              {data.supportingPoints.map((pt, i) => (
+                <li key={i} className="flex items-start gap-2 text-xs text-muted-foreground">
+                  <span className={`mt-1 h-1 w-1 rounded-full flex-shrink-0 ${style.icon.replace("text-", "bg-")}`} />
+                  {pt}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         <p className="text-sm text-foreground leading-relaxed">{content.summary}</p>
