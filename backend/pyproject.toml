@@ -1,0 +1,29 @@
+[project]
+name = "venture-validator-backend"
+version = "0.1.0"
+description = "Multi-agent backend for startup idea validation"
+requires-python = ">=3.11"
+dependencies = [
+    "deepagents",
+    "langchain[anthropic]",
+    "tavily-python",
+    "fastapi",
+    "uvicorn[standard]",
+    "sse-starlette",
+    "pyyaml",
+    "python-dotenv",
+    "pydantic",
+    "langfuse>=3.14.5",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "slow: marks tests as slow (real multi-turn LLM calls, skipped by default with -m 'not slow')",
+]
