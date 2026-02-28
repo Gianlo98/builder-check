@@ -51,6 +51,10 @@ const AreaChartViz = dynamic(
   () => import("./visualizations/AreaChartViz"),
   { ssr: false, loading: VizLoading }
 );
+const DistributionViz = dynamic(
+  () => import("./visualizations/DistributionViz"),
+  { ssr: false, loading: VizLoading }
+);
 
 interface Props {
   agent: AgentConfig;
@@ -81,6 +85,8 @@ export function AgentVizRenderer({ agent, content }: Props) {
         return <StackedBarViz agent={agent} data={viz} content={content} />;
       case "areaChart":
         return <AreaChartViz agent={agent} data={viz} content={content} />;
+      case "distribution":
+        return <DistributionViz agent={agent} data={viz} content={content} />;
     }
   }
 

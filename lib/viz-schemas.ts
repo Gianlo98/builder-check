@@ -72,6 +72,16 @@ export const TitleCardSchema = z.object({
   recommendation: z.string(),
 });
 
+export const DistributionSchema = z.object({
+  vizType: z.literal("distribution"),
+  title: z.string(),
+  xLabel: z.string(),
+  bins: z.array(z.object({ range: z.string(), count: z.number() })),
+  score: z.number().describe("0-100"),
+  scoreLabel: z.string(),
+  recommendation: z.string(),
+});
+
 export const AreaChartSchema = z.object({
   vizType: z.literal("areaChart"),
   title: z.string(),
@@ -155,6 +165,7 @@ const vizSchemaMap = {
   lineChart: LineChartSchema,
   stackedBar: StackedBarSchema,
   areaChart: AreaChartSchema,
+  distribution: DistributionSchema,
 } as const;
 
 export type VizType = keyof typeof vizSchemaMap;
@@ -179,4 +190,5 @@ export type GaugeData = z.infer<typeof GaugeSchema>;
 export type LineChartData = z.infer<typeof LineChartSchema>;
 export type StackedBarData = z.infer<typeof StackedBarSchema>;
 export type AreaChartData = z.infer<typeof AreaChartSchema>;
-export type VizData = ScoreCardData | BarChartData | RadarChartData | ProgressListData | TitleCardData | KpiCardData | GaugeData | LineChartData | StackedBarData | AreaChartData;
+export type DistributionData = z.infer<typeof DistributionSchema>;
+export type VizData = ScoreCardData | BarChartData | RadarChartData | ProgressListData | TitleCardData | KpiCardData | GaugeData | LineChartData | StackedBarData | AreaChartData | DistributionData;
