@@ -35,6 +35,10 @@ const KpiCardViz = dynamic(
   () => import("./visualizations/KpiCardViz"),
   { ssr: false, loading: VizLoading }
 );
+const GaugeViz = dynamic(
+  () => import("./visualizations/GaugeViz"),
+  { ssr: false, loading: VizLoading }
+);
 
 interface Props {
   agent: AgentConfig;
@@ -57,6 +61,8 @@ export function AgentVizRenderer({ agent, content }: Props) {
         return <TitleCardViz agent={agent} data={viz} content={content} />;
       case "kpiCard":
         return <KpiCardViz agent={agent} data={viz} content={content} />;
+      case "gauge":
+        return <GaugeViz agent={agent} data={viz} content={content} />;
     }
   }
 
