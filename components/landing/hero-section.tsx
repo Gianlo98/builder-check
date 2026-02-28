@@ -8,7 +8,7 @@ export function HeroSection() {
       <div className="mb-6">
         <Badge variant="outline" className="gap-1.5 text-xs px-3 py-1">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 inline-block" />
-          6 AI agents · runs in parallel
+          19 AI agents · runs in parallel
         </Badge>
       </div>
 

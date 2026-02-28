@@ -198,7 +198,7 @@ e.g. &quot;A tool that helps indie game devs monetize their Discord communities&
       </div>
 
       <p className="text-xs text-center text-muted-foreground">
-        ⌘ + Enter to submit · 6 AI agents will run in parallel
+        ⌘ + Enter to submit · 19 AI agents will run in parallel
       </p>
     </div>
   );
