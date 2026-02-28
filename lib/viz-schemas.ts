@@ -72,6 +72,22 @@ export const TitleCardSchema = z.object({
   recommendation: z.string(),
 });
 
+export const KpiCardSchema = z.object({
+  vizType: z.literal("kpiCard"),
+  title: z.string(),
+  metrics: z.array(
+    z.object({
+      label: z.string(),
+      value: z.string(),
+      delta: z.string(),
+      deltaDirection: z.enum(["up", "down", "neutral"]),
+    })
+  ),
+  score: z.number().describe("0-100"),
+  scoreLabel: z.string(),
+  recommendation: z.string(),
+});
+
 // Per-vizType response schemas (avoids oneOf/discriminatedUnion which Anthropic doesn't support)
 const vizSchemaMap = {
   scoreCard: ScoreCardSchema,
@@ -79,6 +95,7 @@ const vizSchemaMap = {
   radarChart: RadarChartSchema,
   progressList: ProgressListSchema,
   titleCard: TitleCardSchema,
+  kpiCard: KpiCardSchema,
 } as const;
 
 export type VizType = keyof typeof vizSchemaMap;
@@ -98,4 +115,5 @@ export type BarChartData = z.infer<typeof BarChartSchema>;
 export type RadarChartData = z.infer<typeof RadarChartSchema>;
 export type ProgressListData = z.infer<typeof ProgressListSchema>;
 export type TitleCardData = z.infer<typeof TitleCardSchema>;
-export type VizData = ScoreCardData | BarChartData | RadarChartData | ProgressListData | TitleCardData;
+export type KpiCardData = z.infer<typeof KpiCardSchema>;
+export type VizData = ScoreCardData | BarChartData | RadarChartData | ProgressListData | TitleCardData | KpiCardData;

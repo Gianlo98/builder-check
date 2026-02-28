@@ -31,6 +31,10 @@ const TitleCardViz = dynamic(
   () => import("./visualizations/TitleCardViz"),
   { ssr: false, loading: VizLoading }
 );
+const KpiCardViz = dynamic(
+  () => import("./visualizations/KpiCardViz"),
+  { ssr: false, loading: VizLoading }
+);
 
 interface Props {
   agent: AgentConfig;
@@ -51,6 +55,8 @@ export function AgentVizRenderer({ agent, content }: Props) {
         return <ProgressListViz agent={agent} data={viz} content={content} />;
       case "titleCard":
         return <TitleCardViz agent={agent} data={viz} content={content} />;
+      case "kpiCard":
+        return <KpiCardViz agent={agent} data={viz} content={content} />;
     }
   }
 
