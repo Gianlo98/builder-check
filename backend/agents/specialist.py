@@ -22,7 +22,7 @@ def build_subagent_defs() -> list[dict]:
     create_deep_agent(subagents=[...]).
     """
     raw = load_agent_configs()
-    default_model = raw.get("defaults", {}).get("model", "claude-sonnet-4-5-20250929")
+    default_model = raw.get("defaults", {}).get("model", "claude-haiku-4-5-20251001")
     agents = raw.get("agents", {})
 
     subagent_defs = []

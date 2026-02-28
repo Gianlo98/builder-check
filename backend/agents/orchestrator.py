@@ -54,7 +54,7 @@ def create_orchestrator(checkpointer: MemorySaver | None = None):
     system_prompt = _build_orchestrator_prompt(config)
     subagent_defs = build_subagent_defs()
 
-    model = config["orchestrator"].get("model", "claude-sonnet-4-5-20250929")
+    model = config["orchestrator"].get("model", "claude-haiku-4-5-20251001")
 
     if checkpointer is None:
         checkpointer = MemorySaver()

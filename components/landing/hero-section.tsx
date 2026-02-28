@@ -15,7 +15,7 @@ export function HeroSection() {
       <div className="mb-6">
         <Badge variant="outline" className="gap-1.5 text-xs px-3 py-1">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 inline-block" />
-          19 AI agents · runs in parallel
+          6 AI agents · runs in parallel
         </Badge>
       </div>
 
@@ -50,7 +50,7 @@ export function HeroSection() {
       </div>
 
       {/* Input */}
-      <div className="w-full max-w-2xl">
+      <div className="w-full max-w-6xl">
         <ResearchInput />
       </div>
     </section>

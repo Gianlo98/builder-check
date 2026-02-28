@@ -4,6 +4,7 @@ Run with: uv run uvicorn main:app --reload --port 8000
 """
 
 import json
+import re
 import time
 from pathlib import Path
 from contextlib import asynccontextmanager
@@ -151,6 +152,36 @@ def _log_result(node: str, agent_id: str, text: str):
 # ---------------------------------------------------------------------------
 # Text extraction
 # ---------------------------------------------------------------------------
+
+def _extract_json(text: str) -> dict | None:
+    """Extract a JSON object from agent output that may contain prose or markdown fences."""
+    # Strategy 1: direct parse
+    stripped = text.strip()
+    try:
+        return json.loads(stripped)
+    except (json.JSONDecodeError, ValueError):
+        pass
+
+    # Strategy 2: extract from ```json ... ``` fences (possibly with preamble text)
+    fence_match = re.search(r"```(?:json)?\s*\n(.*?)```", stripped, re.DOTALL)
+    if fence_match:
+        try:
+            return json.loads(fence_match.group(1).strip())
+        except (json.JSONDecodeError, ValueError):
+            pass
+
+    # Strategy 3: find the outermost { ... } block
+    first_brace = stripped.find("{")
+    if first_brace >= 0:
+        last_brace = stripped.rfind("}")
+        if last_brace > first_brace:
+            try:
+                return json.loads(stripped[first_brace : last_brace + 1])
+            except (json.JSONDecodeError, ValueError):
+                pass
+
+    return None
+
 
 def _extract_text(content) -> str:
     if isinstance(content, str):
@@ -343,11 +374,19 @@ async def chat(req: ChatRequest):
 
                 if agent_name:
                     _log_result(node, agent_name, result_text)
+
+                    content_payload: str | dict = result_text
+                    parsed_json = _extract_json(result_text)
+                    if parsed_json is not None:
+                        content_payload = parsed_json
+                    else:
+                        content_payload = result_text
+
                     yield {
                         "event": "agent_result",
                         "data": json.dumps({
                             "agentId": agent_name,
-                            "content": result_text,
+                            "content": content_payload,
                         }),
                     }
 
