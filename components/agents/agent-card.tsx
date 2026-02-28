@@ -48,9 +48,9 @@ export function AgentCard({ agent, content }: AgentCardProps) {
       <CardHeader className="pb-3">
         <div className="flex items-center gap-3">
           <div
-            className={`text-2xl w-10 h-10 rounded-lg ${agent.accent} flex items-center justify-center border ${agent.accentBorder}`}
+            className={`w-10 h-10 rounded-lg ${agent.accent} flex items-center justify-center border ${agent.accentBorder}`}
           >
-            {agent.icon}
+            <agent.icon className={`h-5 w-5 ${agent.accentText}`} />
           </div>
           <div className="flex-1">
             <div className={`text-sm font-semibold ${agent.accentText}`}>
@@ -63,54 +63,57 @@ export function AgentCard({ agent, content }: AgentCardProps) {
       </CardHeader>
 
       <CardContent className="space-y-4">
-        {/* Summary */}
-        <p className="text-sm text-foreground leading-relaxed">{content.summary}</p>
-
-        {/* Score bar */}
-        {content.score !== undefined && content.scoreLabel && (
-          <ScoreBar
-            score={content.score}
-            label={content.scoreLabel}
-            accentText={agent.accentText}
-            accentBorder={agent.accentBorder}
-          />
-        )}
-
-        {/* Bullet insights */}
-        <ul className="space-y-2">
-          {content.bullets.map((bullet, i) => (
-            <li key={i} className="flex items-start gap-2 text-sm">
-              <span className={`mt-1 h-1.5 w-1.5 rounded-full flex-shrink-0 ${agent.accentText.replace("text-", "bg-")}`} />
-              <span className="text-muted-foreground leading-snug">{bullet}</span>
-            </li>
-          ))}
-        </ul>
-
-        {/* Tags */}
-        {content.tags && content.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1.5">
-            {content.tags.map((tag) => (
-              <Badge
-                key={tag}
-                variant="outline"
-                className={`text-xs ${agent.accentText} ${agent.accentBorder}`}
-              >
-                {tag}
-              </Badge>
-            ))}
+        {content.rawContent ? (
+          <div className="text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap max-h-[300px] overflow-y-auto">
+            {content.rawContent}
           </div>
-        )}
+        ) : (
+          <>
+            <p className="text-sm text-foreground leading-relaxed">{content.summary}</p>
 
-        {/* Recommendation */}
-        {content.recommendation && (
-          <div className={`rounded-md p-3 ${agent.accent} border ${agent.accentBorder}`}>
-            <p className={`text-xs font-medium ${agent.accentText} mb-0.5`}>
-              Recommendation
-            </p>
-            <p className="text-xs text-foreground/80 leading-relaxed">
-              {content.recommendation}
-            </p>
-          </div>
+            {content.score !== undefined && content.scoreLabel && (
+              <ScoreBar
+                score={content.score}
+                label={content.scoreLabel}
+                accentText={agent.accentText}
+                accentBorder={agent.accentBorder}
+              />
+            )}
+
+            <ul className="space-y-2">
+              {content.bullets.map((bullet, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm">
+                  <span className={`mt-1 h-1.5 w-1.5 rounded-full flex-shrink-0 ${agent.accentText.replace("text-", "bg-")}`} />
+                  <span className="text-muted-foreground leading-snug">{bullet}</span>
+                </li>
+              ))}
+            </ul>
+
+            {content.tags && content.tags.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {content.tags.map((tag) => (
+                  <Badge
+                    key={tag}
+                    variant="outline"
+                    className={`text-xs ${agent.accentText} ${agent.accentBorder}`}
+                  >
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            )}
+
+            {content.recommendation && (
+              <div className={`rounded-md p-3 ${agent.accent} border ${agent.accentBorder}`}>
+                <p className={`text-xs font-medium ${agent.accentText} mb-0.5`}>
+                  Recommendation
+                </p>
+                <p className="text-xs text-foreground/80 leading-relaxed">
+                  {content.recommendation}
+                </p>
+              </div>
+            )}
+          </>
         )}
       </CardContent>
     </Card>

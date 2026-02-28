@@ -1,9 +1,16 @@
 import { Badge } from "@/components/ui/badge";
+import { Logo } from "@/components/ui/logo";
+import { AGENTS } from "@/lib/agents";
 import { ResearchInput } from "./research-input";
 
 export function HeroSection() {
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-4 py-20 bg-gradient-to-b from-background to-muted/30">
+    <section className="min-h-screen flex flex-col items-center justify-center px-4 py-20 bg-background">
+      {/* Logo */}
+      <div className="mb-8">
+        <Logo size="lg" />
+      </div>
+
       {/* Top badge */}
       <div className="mb-6">
         <Badge variant="outline" className="gap-1.5 text-xs px-3 py-1">
@@ -16,7 +23,7 @@ export function HeroSection() {
       <div className="text-center space-y-4 mb-10 max-w-3xl">
         <h1 className="text-5xl md:text-6xl font-bold tracking-tight leading-tight">
           Validate your{" "}
-          <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-emerald-600 via-green-500 to-teal-600 bg-clip-text text-transparent">
             startup idea
           </span>
           <br />
@@ -31,19 +38,12 @@ export function HeroSection() {
 
       {/* Agent pills preview */}
       <div className="flex flex-wrap justify-center gap-2 mb-10 max-w-2xl">
-        {[
-          { icon: "📈", label: "Market" },
-          { icon: "⚔️", label: "Competition" },
-          { icon: "🎯", label: "Customers" },
-          { icon: "💰", label: "Business Model" },
-          { icon: "⚠️", label: "Risks" },
-          { icon: "🚀", label: "Go-to-Market" },
-        ].map((a) => (
+        {AGENTS.map((a) => (
           <span
-            key={a.label}
+            key={a.id}
             className="text-xs border rounded-full px-3 py-1 bg-background text-muted-foreground flex items-center gap-1.5"
           >
-            <span>{a.icon}</span>
+            <a.icon className="h-3.5 w-3.5" />
             {a.label}
           </span>
         ))}

@@ -1,10 +1,20 @@
+import {
+  TrendingUp,
+  Swords,
+  Target,
+  Coins,
+  ShieldAlert,
+  Rocket,
+  type LucideIcon,
+} from "lucide-react";
+
 export type AgentStatus = "idle" | "loading" | "done" | "error";
 
 export interface AgentConfig {
   id: string;
   label: string;
   description: string;
-  icon: string;
+  icon: LucideIcon;
   accent: string; // tailwind bg color class
   accentText: string; // tailwind text color class
   accentBorder: string; // tailwind border color class
@@ -25,7 +35,16 @@ export interface AgentContent {
   bullets: string[];
   tags?: string[];
   recommendation?: string;
+<<<<<<< HEAD
   vizData?: import("@/lib/viz-schemas").VizData;
+=======
+  rawContent?: string; // raw text from backend specialist agents
+}
+
+export interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+>>>>>>> main
 }
 
 // 19 parallel validation agents — one per visualization type
@@ -34,7 +53,7 @@ export const AGENTS: AgentConfig[] = [
     id: "market",
     label: "Market Opportunity",
     description: "Assesses total addressable market, growth trends, and timing",
-    icon: "📈",
+    icon: TrendingUp,
     accent: "bg-blue-50",
     accentText: "text-blue-700",
     accentBorder: "border-blue-200",
@@ -44,7 +63,7 @@ export const AGENTS: AgentConfig[] = [
     id: "competition",
     label: "Competitive Landscape",
     description: "Maps existing players, moats, and differentiation angles",
-    icon: "⚔️",
+    icon: Swords,
     accent: "bg-purple-50",
     accentText: "text-purple-700",
     accentBorder: "border-purple-200",
@@ -54,7 +73,7 @@ export const AGENTS: AgentConfig[] = [
     id: "customer",
     label: "Target Customer",
     description: "Defines ICP, pain points, and willingness to pay",
-    icon: "🎯",
+    icon: Target,
     accent: "bg-rose-50",
     accentText: "text-rose-700",
     accentBorder: "border-rose-200",
@@ -64,7 +83,7 @@ export const AGENTS: AgentConfig[] = [
     id: "business_model",
     label: "Business Model",
     description: "Evaluates revenue model, unit economics, and scalability",
-    icon: "💰",
+    icon: Coins,
     accent: "bg-emerald-50",
     accentText: "text-emerald-700",
     accentBorder: "border-emerald-200",
@@ -74,7 +93,7 @@ export const AGENTS: AgentConfig[] = [
     id: "risks",
     label: "Risk Analysis",
     description: "Identifies execution, market, regulatory, and tech risks",
-    icon: "⚠️",
+    icon: ShieldAlert,
     accent: "bg-amber-50",
     accentText: "text-amber-700",
     accentBorder: "border-amber-200",
@@ -82,9 +101,15 @@ export const AGENTS: AgentConfig[] = [
   },
   {
     id: "gtm",
+<<<<<<< HEAD
     label: "Go-to-Market Roadmap",
     description: "Maps launch milestones, sequenced acquisition and growth phases",
     icon: "🚀",
+=======
+    label: "Go-to-Market",
+    description: "Suggests acquisition channels, launch strategy, and positioning",
+    icon: Rocket,
+>>>>>>> main
     accent: "bg-indigo-50",
     accentText: "text-indigo-700",
     accentBorder: "border-indigo-200",
