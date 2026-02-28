@@ -1,14 +1,21 @@
 "use client";
 
-import { AgentResult, AgentConfig, AGENTS } from "@/lib/agents";
+import { useState } from "react";
+import { AgentResult, AgentConfig, AgentContent, AGENTS } from "@/lib/agents";
 import { AgentSkeleton } from "./agent-skeleton";
-import { AgentCard } from "./agent-card";
+import { CompactAgentCard } from "./CompactAgentCard";
+import { AgentDetailModal } from "./AgentDetailModal";
 
 interface AgentsGridProps {
   results: AgentResult[];
 }
 
 export function AgentsGrid({ results }: AgentsGridProps) {
+  const [activeAgent, setActiveAgent] = useState<{
+    agent: AgentConfig;
+    content: AgentContent;
+  } | null>(null);
+
   const getResult = (agentId: string): AgentResult | undefined =>
     results.find((r) => r.agentId === agentId);
 
@@ -51,15 +58,17 @@ export function AgentsGrid({ results }: AgentsGridProps) {
 
           if (status === "done" && result?.content) {
             return (
-              <AgentCard
+              <CompactAgentCard
                 key={agent.id}
                 agent={agent}
                 content={result.content}
+                onClick={() =>
+                  setActiveAgent({ agent, content: result.content! })
+                }
               />
             );
           }
 
-          // Show skeleton while loading or idle
           return (
             <div
               key={agent.id}
@@ -71,6 +80,15 @@ export function AgentsGrid({ results }: AgentsGridProps) {
           );
         })}
       </div>
+
+      {/* Detail modal */}
+      {activeAgent && (
+        <AgentDetailModal
+          agent={activeAgent.agent}
+          content={activeAgent.content}
+          onClose={() => setActiveAgent(null)}
+        />
+      )}
     </div>
   );
 }
